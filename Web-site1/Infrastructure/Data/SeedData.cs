@@ -13,7 +13,7 @@ namespace Web_site1.Infrastructure.Data
         // В  этом  методе    добавляется    инициализационное    содержимое.
         //    Запускать  его  можно   при  первом  запуске   проекта (или  через    логику  в    `Startup.cs` ).
         //  метод,   используется   класс   `Product`,  также   реализуемый   вас    в   `Domain` (папка `Models` или   `Entities`).
-        private static Product CreateProduct(string name, decimal price, string description, string size, string style)
+        private static Product CreateProduct(string name, int price, string description, string size, string style)
         {
             return new Product()
             {
@@ -26,7 +26,7 @@ namespace Web_site1.Infrastructure.Data
                 // Вы должны создать разные методы CreateShirt, CreateDress или с одной параметрами и свойствами
             };
         }
-        private static Product CreateDress(string name, decimal price, string description, string style)
+        private static Product CreateDress(string name, int price, string description, string style)
         {
             return new Dress()
             {
@@ -40,7 +40,7 @@ namespace Web_site1.Infrastructure.Data
                 // Вы должны создать разные методы CreateShirt, CreateDress или с одной параметрами и свойствами
             };
         }
-        private static Product CreateSize(string name, decimal price, string description, string size)
+        private static Product CreateSize(string name, int price, string description, string size)
         {
             return new Shirt()
             {

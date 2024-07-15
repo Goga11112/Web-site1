@@ -12,6 +12,8 @@ namespace Web_site1.Infrastructure.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Shirt { get; set; }
+        public DbSet<Product> Dress{ get; set; }
         // ... (другие DbSet для других моделей)
     }
 }

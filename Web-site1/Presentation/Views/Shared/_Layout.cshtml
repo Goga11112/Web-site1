@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - Мое приложение</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">Мое приложение</a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Product" asp-action="Index">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Product" asp-action="Create">Добавить</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Product" asp-action="Edit">Редактировать</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Product" asp-action="Detele">Удалить</a>
+                </li>
+                <!-- ... другие ссылки на разделы сайта ... -->
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        @RenderBody()  <!--  <- Сюда будет подставляться контент из других представлений -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

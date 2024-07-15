@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web_site1.Domain.Entities
 {
@@ -12,8 +13,8 @@ namespace Web_site1.Domain.Entities
 
         [Display(Name = "Стоимость продукта")]
         [Required(ErrorMessage = "Введите цену")]
-        [StringLength(3, ErrorMessage = "Более 3 символов")]
-        public decimal Price { get; set; }
+        [StringLength(6, ErrorMessage = "Более 6 символов")]
+        public int Price { get; set; }
 
         [Display(Name = "Описание продукта")]
         [Required(ErrorMessage = "Введите описание")]
