@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Repositories;
-using Web_site1.Infrastructure.Data;
+using Web_site1.Infrastructure.Data; // Add using for AppDbContext
 
 namespace Web_site1.Infrastructure.Repositories
 {
-    public class ProductRepository : IRepository<Product>
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
 

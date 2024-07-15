@@ -2,7 +2,7 @@
 
 namespace Web_site1.Domain.Services
 {
-    public interface IProductService
+    public interface IProductService  //Интерфейс для Сервиса продукта
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<Product> GetProductByIdAsync(int id);

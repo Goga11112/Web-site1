@@ -1,4 +1,22 @@
 ﻿@page
-@model Web_site1.Presentation.Views.Product.CreateModel
+@model Product
 @{
 }
+<form asp-controller="Product" asp-action="Create">
+    
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name"></span>
+
+    <label asp-for="Price"></label>
+    <input asp-for="Price" />
+    <span asp-validation-for="Price"></span>
+
+    <label asp-for="Description"></label>
+    <input asp-for="Description" />
+    <span asp-validation-for="Description"></span>
+    
+    <input type="submit" value="Добавить"/>
+
+
+</form>
