@@ -1,4 +1,6 @@
-﻿@page
-@model Web_site1.Presentation.Views.Product.EditModel
-@{
+﻿@model Web_site1.Presentation.Views.Product.EditModel
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

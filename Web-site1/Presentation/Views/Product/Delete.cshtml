@@ -1,4 +1,52 @@
-﻿@page
-@model Web_site1.Presentation.Views.Product.DeleteModel
+﻿@model IEnumerable<Web_site1.Domain.Entities.Product>
+
 @{
+    Layout = "_Layout";
+    ViewData["Title"] = "Delete";
 }
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Список продуктов</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a asp-action="Create" class="btn btn-primary">Добавить новый продукт</a>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text">Цена: @item.Price</p>
+                    <p class="card-text">
+                        @if (item is Shirt)
+                        {
+                            <span>Размер: @(item as Shirt).Size</span>
+                        }
+                        @if (item is Dress)
+                        {
+                            <span>Стиль: @(item as Dress).Style</span>
+                        }
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Редактировать</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Подробнее</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

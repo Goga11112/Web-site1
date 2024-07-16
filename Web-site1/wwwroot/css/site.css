@@ -20,3 +20,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+    height: 200px; /* Задайте желаемую высоту */
+    width: 100%; /* Задайте ширину, чтобы изображение занимало всю ширину карточки */
+    object-fit: cover; /*  Установите  `object-fit: cover`  для  масштабирования  изображения  с  сохранением  пропорций */
+}

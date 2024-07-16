@@ -3,32 +3,46 @@
     Layout = "_Layout";
     ViewData["Title"] = "Создание продукта";  //  <- Заголовок страницы
 }
-@if (ViewData["MyDataKey"] != null)
-{
-    <p>@ViewData["MyDataKey"]</p>
-}
-else
-{
-    <p>Данные не найдены.</p>
-}
-<form asp-controller="Product" asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name" class="control-label">Название:</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+<h2>Create</h2>
 
-    <div class="form-group">
-        <label asp-for="Price" class="control-label">Цена:</label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div> <span class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Имя товара:</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label">Цена:</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Описание:</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductImageFile" class="control-label">Изображение товара:</label>
+                <input asp-for="ProductImageFile" type="file" class="form-control" />
+                <span asp-validation-for="ProductImageFile" class="text-danger"></span>
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="control-label">Описание:</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-
-    <button type="submit" class="btn btn-primary">Создать</button>
-</form>
+</div>
+<div>
+    <a asp-action="Index">Назад к списку товаров</a>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}   
