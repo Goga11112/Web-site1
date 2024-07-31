@@ -17,6 +17,7 @@ namespace Web_site1.Domain.Entities
         [Required(ErrorMessage = "Введите цену")]
         [StringLength(6, ErrorMessage = "Более 6 символов")]
         [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")] // Укажите тип данных в базе данных
         public decimal Price { get; set; }
 
         [Display(Name = "Описание продукта")]

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web_site1.Domain.Services;
 using Web_site1.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Web_site1.Presentation.Controllers
 {
@@ -64,6 +62,7 @@ namespace Web_site1.Presentation.Controllers
                 await _productService.CreateProductAsync(product);
                 return RedirectToAction(nameof(Index));
             }
+            Console.WriteLine("Успешно добавлен");
             return View(product);
         }
 
