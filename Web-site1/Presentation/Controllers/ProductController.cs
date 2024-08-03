@@ -49,12 +49,10 @@ namespace Web_site1.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product) 
         {
-            Console.WriteLine(ModelState.IsValid);
-            Console.WriteLine(product.Name); Console.WriteLine(product.Price); Console.WriteLine(product.Description); Console.WriteLine(product.ProductImageFile);
             try
             {
-              Console.WriteLine("Product was saved");
-            if (ModelState.IsValid && product.ProductImageFile != null)
+                Console.WriteLine("Create сработал");
+            if (product.ProductImageFile != null)
             {
                     //  Сохраняем  картинку   на  диске:
                     string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
