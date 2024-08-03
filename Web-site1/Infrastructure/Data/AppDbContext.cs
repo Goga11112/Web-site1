@@ -12,14 +12,15 @@ namespace Web_site1.Infrastructure.Data
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Product> Shirt { get; set; }
-        public DbSet<Product> Dress{ get; set; }
         // ... (другие DbSet для других моделей)
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().ToTable("Products"); 
+
             modelBuilder.Entity<Product>().Property(p => p.ProductImageUrl).HasMaxLength(255); //  Добавьте  этот  код
             base.OnModelCreating(modelBuilder);
+            Console.WriteLine("AppDbContext в норме");
         }
     }
 }

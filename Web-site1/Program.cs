@@ -3,15 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Web_site1.Domain.Repositories;
 using Web_site1.Domain.Services;
 using Web_site1.Infrastructure.Data;
+using Web_site1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Products;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 builder.Services.AddScoped<IProductService, ProductService>();
-
+// 2.  Регистрация  вашего  репозитория  (IProductRepository):
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
@@ -24,16 +28,16 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
 var app = builder.Build();//Всегда замыкает билдер, потому как его формирует
 
 
-
-
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

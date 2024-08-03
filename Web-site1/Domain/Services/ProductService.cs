@@ -13,10 +13,12 @@ namespace Web_site1.Domain.Services // Используйте то же прос
         {
             _dbContext = context;
         }
-       
+
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
+                Console.WriteLine("В IProductService все хорошо");
+            
             return await _dbContext.Products.ToListAsync();
         }
 

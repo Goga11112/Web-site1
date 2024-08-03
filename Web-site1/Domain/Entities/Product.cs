@@ -7,27 +7,25 @@ namespace Web_site1.Domain.Entities
 {
     public class Product : IEnumerable<Product>
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Display(Name = "Название продукта")]
         [Required(ErrorMessage = "Введите название продукта")]
-        public string Name { get; set; }
+        public string Name { get; set; } 
 
         [Display(Name = "Стоимость продукта")]
         [Required(ErrorMessage = "Введите цену")]
         [StringLength(6, ErrorMessage = "Более 6 символов")]
-        [DataType(DataType.Currency)]
-        [Column(TypeName = "decimal(18,2)")] // Укажите тип данных в базе данных
-        public decimal Price { get; set; }
+        [DataType(DataType.Currency)]// Укажите тип данных в базе данных
+        public int Price { get; set; } 
 
         [Display(Name = "Описание продукта")]
         [Required(ErrorMessage = "Введите описание")]
         public string Description { get; set; }
 
-
-        [Display(Name = "Изображение продукта")]
-        [Required(ErrorMessage = "Добавьте картинку")]
-        public string ProductImageUrl { get; set; }
+        [Display(Name = "Изображение    продукта")]
+        public string ProductImageUrl { get; set; } 
 
         [NotMapped]
         public IFormFile ProductImageFile { get; set; } //  Добавим свойство  для   файла картинки
