@@ -12,18 +12,22 @@
     <div class="col-md-4 mb-3">
         <div class="card h-100">
             <div class="card-body">
+                <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data" input>
+                 @Html.AntiForgeryToken()
                 <img src="@Model.ProductImageUrl" class="card-img-top" alt="@Model.Name">
                 <div class="card-body">
                     <h5 class="card-title">@Model.Name</h5>
                     <p class="card-text">@Model.Description</p>
                     <p class="card-text">Цена: @(Model.Price.ToString("C"))</p>
                 </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Подтвердить удаление" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
-    <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
-    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
-</form>

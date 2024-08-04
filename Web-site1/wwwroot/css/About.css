@@ -1,0 +1,140 @@
+﻿.container.mt-5 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравниваем текст по левому краю */
+    text-align: left; /* Выравниваем текст по левому краю */
+}
+
+    .container.mt-5 h1 {
+        color: #333; /* Темно-серый цвет заголовка */
+        font-family: 'Arial', sans-serif; /* Выберите шрифт, который вам нравится */
+        font-weight: bold;
+        font-size: 3em;
+        margin-bottom: 2rem;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Тень для заголовка */
+        animation: text-appear 1s ease-in-out; /* Анимация появления текста */
+    }
+
+    .container.mt-5 p {
+        color: #555; /* Серый цвет для основного текста */
+        font-size: 1.4em; /* Увеличиваем размер основного текста */
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        animation: text-appear 1.2s ease-in-out; /* Анимация появления текста */
+    }
+
+    .container.mt-5 ul {
+        list-style: none; /* Убираем маркеры */
+        padding: 0;
+        display: flex; /* Размещаем ссылки в строку */
+        align-items: center; /* Выравниваем ссылки по вертикали */
+        gap: 20px; /* Отступ между ссылками */
+    }
+
+        .container.mt-5 ul li {
+            margin-bottom: 1rem;
+        }
+
+            .container.mt-5 ul li a {
+                color: #007bff; /* Голубой цвет для ссылок */
+                text-decoration: none;
+                transition: color 0.3s ease-in-out; /* Анимация перехода цвета */
+                animation: link-appear 1.4s ease-in-out; /* Анимация появления ссылки */
+                position: relative; /* Для добавления сердечка над ссылкой */
+            }
+
+                .container.mt-5 ul li a:hover {
+                    color: #0056b3; /* Более темный оттенок голубого цвета при наведении */
+                    /* Добавление сердечка над ссылкой при наведении */
+                    &:before
+
+{
+    content: '❤️'; /* Используем эмодзи сердечка */
+    position: absolute;
+    top: -15px; /* Позиционируем сердечко над ссылкой */
+    left: 50%; /* Позиционируем по центру */
+    transform: translateX(-50%); /* Выравниваем по центру */
+    font-size: 2em; /* Размер сердечка */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+&:hover::before {
+    opacity: 1;
+}
+
+}
+
+.container.mt-5 h2 {
+    color: #333; /* Темно-серый цвет для заголовка навыков */
+    font-family: 'Arial', sans-serif; /* Выберите шрифт, который вам нравится */
+    font-weight: bold;
+    font-size: 1.8em;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Тень для заголовка */
+}
+
+/* Анимации */
+@keyframes text-appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes link-appear {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Стили для контейнера с картинкой и описанием */
+.row {
+    display: flex;
+    gap: 30px; /* Отступ между картинкой и описанием */
+}
+
+.col-md-6 img {
+    /* Стили для изображения */
+    width: 250px; /* Увеличиваем размер картинки */
+    height: 250px; /* Увеличиваем размер картинки */
+    border: 3px solid #ccc;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.col-md-6 {
+    /* Стили для блока с описанием */
+    flex-direction: column; /* Устанавливаем вертикальную компоновку */
+    align-items: flex-start; /* Выравниваем текст по левому краю */
+}
+
+    .col-md-6 h2 {
+        font-size: 2.2em; /* Увеличиваем размер заголовка */
+        margin-bottom: 1.5rem; /* Отступ под заголовком */
+    }
+
+    .col-md-6 ul {
+        /* Изменение стилей для списка */
+        list-style-type: disc; /* Выбираем круглый маркер для списка */
+        margin-left: 20px; /* Добавляем отступ для списка */
+    }
+
+        .col-md-6 ul li {
+            font-size: 1.2em; /* Увеличиваем размер элементов списка */
+        }
+
+            .col-md-6 ul li a:hover {
+                /* При наведении курсора на ссылку */
+                text-decoration: underline; /* Подчеркивание */
+            }

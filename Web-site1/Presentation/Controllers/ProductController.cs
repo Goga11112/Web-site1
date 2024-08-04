@@ -17,28 +17,25 @@ namespace Web_site1.Presentation.Controllers
             _productService = productService;
             _env = env;
         }
-        public async Task<IActionResult> Index()
+        
+
+        public async Task<IActionResult> Index(string search)
         {
             var products = await _productService.GetAllProductsAsync();
+
+            //  Фильтрация  
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(p => p.Name.ToLower().Contains(search.ToLower()));
+            }
+
             return View(products);
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult About()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _productService.GetProductByIdAsync(id.Value);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+            return View();
         }
-
         public IActionResult Create()
         {
             return View();
@@ -173,12 +170,28 @@ namespace Web_site1.Presentation.Controllers
             // Удаление товара из базы данных
             try
             {
-                await _productService.DeleteProductAsync(id);
+                var product = await _productService.GetProductByIdAsync(id);
+
+                if (product != null)
+                {
+                    // Получение пути к файлу с изображением 
+                    string filePath = Path.Combine(_env.WebRootPath, "images", "uploads", product.ProductImageUrl.Replace("/images/uploads/", ""));
+
+                    // Удаление товара
+                    await _productService.DeleteProductAsync(id);
+
+                    // Проверка на существование файла и удаление
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                        Console.WriteLine($"Файл '{product.ProductImageUrl}' был удален.");
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                // Обработка ошибок удаления 
                 Console.WriteLine($"Ошибка при удалении продукта: {ex.Message}");
                 return RedirectToAction(nameof(Index)); // Или, return View(product)
             }
