@@ -9,8 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Products;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();  // Добавляем обработчик REST API
+
 builder.Services.AddScoped<IProductService, ProductService>();
-// 2.  Регистрация  вашего  репозитория  (IProductRepository):
+//   Регистрация   репозитория  (IProductRepository):
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -22,6 +25,7 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
     // Добавляем ваш кастомный путь в начало списка
     options.ViewLocationFormats.Insert(0, "/Presentation/Views/Product/{0}.cshtml");
     options.ViewLocationFormats.Insert(1, "/Presentation/Views/Shared/{0}.cshtml");
+
 });
 
 
@@ -43,6 +47,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+// Тестовый маршрут  (необязательный)    app.MapGet("/", () => "Hello World!"); 
+app.MapControllers();  //   Маршрутизация для  API
 
 app.UseAuthorization();
 
