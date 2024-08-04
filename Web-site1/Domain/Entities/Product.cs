@@ -18,7 +18,7 @@ namespace Web_site1.Domain.Entities
         [Required(ErrorMessage = "Введите цену")]
         [StringLength(6, ErrorMessage = "Более 6 символов")]
         [DataType(DataType.Currency)]// Укажите тип данных в базе данных
-        public int Price { get; set; }
+        public int Price { get; set; } = 0;
 
         [Display(Name = "Описание продукта")]
         [Required(ErrorMessage = "Введите описание")]

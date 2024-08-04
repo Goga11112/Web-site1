@@ -51,18 +51,17 @@ namespace Web_site1.Presentation.Controllers
         {
             try
             {
-                Console.WriteLine("Create сработал");
-            if (product.ProductImageFile != null)
-            {
-                    //  Сохраняем  картинку   на  диске:
-                    string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
-                    product.ProductImageUrl = "/images/uploads/" + uniqueFileName;  //   Путь   к   картинке   в  `wwwroot`
-                    Console.WriteLine("Спрошло сохранение в базу");
+                if ((product.ProductImageFile != null)&&(product.Name!=null)&&(product.Price != 0))
+                {
+                        //  Сохраняем  картинку   на  диске:
+                        string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
+                        product.ProductImageUrl = "/images/uploads/" + uniqueFileName;  //   Путь   к   картинке   в  `wwwroot`
+                        Console.WriteLine("Спрошло сохранение в базу");
 
-                    // Сохраняем   товар  в   базу: 
-                    await _productService.CreateProductAsync(product);
-                    Console.WriteLine("Успешно добавлен в базу данных");
-                    return RedirectToAction(nameof(Index));
+                        // Сохраняем   товар  в   базу: 
+                        await _productService.CreateProductAsync(product);
+                        Console.WriteLine("Успешно добавлен в базу данных");
+                        return RedirectToAction(nameof(Index));
 
                 }
             }
@@ -105,27 +104,51 @@ namespace Web_site1.Presentation.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description,Size,Style, ProductImageFile, ProductImageUrl")] Product product)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
-            {
-                if (product.ProductImageFile != null)
-                {
-                    string uniqueFileName = UploadedFile(product.ProductImageFile);
-                    product.ProductImageUrl = "/images/uploads/" + uniqueFileName;
-                }
 
-                await _productService.UpdateProductAsync(product);
-                return RedirectToAction(nameof(Index));
+            // Проверяем, заполнены ли обязательные поля
+            if (string.IsNullOrEmpty(product.Name) || product.Price <= 0 || string.IsNullOrEmpty(product.Description))
+            {
+                Console.WriteLine("Валидация не пройдена");
+                // Добавьте логику отображения сообщений об ошибке валидации (например, добавив
+                // ошибки в ModelState и вызвав View(product)
+                return View(product); // Возвращаем View с ошибками валидации
             }
-            return View(product);
+
+
+
+            // Валидация пройдена 
+            Console.WriteLine("Валидация пройдена");
+            if (product.ProductImageFile != null)
+            {
+                // Сохранение нового файла в библиотеку, не забывайте о обработке исключений
+                string uniqueFileName = UploadedFile(product.ProductImageFile);
+                product.ProductImageUrl = "/images/uploads/" + uniqueFileName;
+                Console.WriteLine("Файл добавлен в библиотеку");
+            }
+
+            // Обновление продукта в базе данных
+            try
+            {
+                await _productService.UpdateProductAsync(product);
+                Console.WriteLine("Обновили в базе");
+                return RedirectToAction(nameof(Index)); // Перенаправление на список товаров
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении продукта: {ex.Message}");
+                // Добавьте логику обработки исключений: отобразите сообщение об ошибке
+                // пользователю или перенаправьте его на страницу с сообщением об ошибке. 
+                return View(product); //  Возвращаем View с информацией о продукте,
+                                      // чтобы пользователь мог попытаться обновить его снова.
+            }
         }
-            
-        
+
 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -147,15 +170,21 @@ namespace Web_site1.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _productService.DeleteProductAsync(id);
-            return RedirectToAction(nameof(Index));
+            // Удаление товара из базы данных
+            try
+            {
+                await _productService.DeleteProductAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок удаления 
+                Console.WriteLine($"Ошибка при удалении продукта: {ex.Message}");
+                return RedirectToAction(nameof(Index)); // Или, return View(product)
+            }
         }
 
-        private bool ProductExists(int id)
-        {
-            return _productService.GetProductByIdAsync(id).Result != null;
-        }
 
-       
+
     }
 }

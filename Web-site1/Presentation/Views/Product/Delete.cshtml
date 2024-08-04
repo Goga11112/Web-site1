@@ -1,42 +1,29 @@
-﻿@model IEnumerable<Web_site1.Domain.Entities.Product>
+﻿@model Web_site1.Domain.Entities.Product
 
 @{
-    Layout = "_Layout";
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Удаление товара";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Список продуктов</h2>
-    </div>
-</div>
+<h2>Удаление товара</h2>
+
+<h3>Вы действительно хотите удалить товар "@Model.Name"?</h3>
 
 <div class="row">
-    <div class="col-md-12">
-        <a asp-action="Create" class="btn btn-primary">Добавить новый продукт</a>
-    </div>
-</div>
-
-<br />
-
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-3">
-            <div class="card h-100">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <img src="@Model.ProductImageUrl" class="card-img-top" alt="@Model.Name">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text">Цена: @item.Price</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Редактировать</a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-secondary">Подробнее</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
-                        </div>
-                    </div>
+                    <h5 class="card-title">@Model.Name</h5>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text">Цена: @(Model.Price.ToString("C"))</p>
                 </div>
             </div>
         </div>
-    }
+    </div>
 </div>
+
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+    <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>
