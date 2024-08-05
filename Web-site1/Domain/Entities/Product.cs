@@ -17,7 +17,7 @@ namespace Web_site1.Domain.Entities
         [Display(Name = "Стоимость продукта")]
         [Required(ErrorMessage = "Введите цену")]
         [StringLength(6, ErrorMessage = "Более 6 символов")]
-        [DataType(DataType.Currency)]// Укажите тип данных в базе данных
+        [DataType(DataType.Currency)]
         public int Price { get; set; } = 0;
 
         [Display(Name = "Описание продукта")]
@@ -30,6 +30,9 @@ namespace Web_site1.Domain.Entities
 
         [NotMapped]
         public IFormFile ProductImageFile { get; set; } //  Добавим свойство  для   файла картинки
+
+        public ICollection<Stock> Stocks { get; set; } = new List<Stock>();// информацию о количестве определённых продуктов на складах
+        public ICollection<Order> Orders { get; set; } = new List<Order>();//Хранит информацию о заказах пользователя
 
         public IEnumerator<Product> GetEnumerator()
         {

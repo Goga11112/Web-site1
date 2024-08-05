@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_site1.Domain.Entities;
 
@@ -27,8 +28,23 @@ namespace Web_site1.Infrastructure.Data
                 // Вы должны создать разные методы CreateShirt, CreateDress или с одной параметрами и свойствами
             };
         }
-        
-       
-        
+
+        public static void Initialize(IServiceProvider serviceProvider)
+        {
+            using (var context = serviceProvider.GetRequiredService<AppDbContext>())
+            {
+                // ...  rest   of   SeedData  (изменяем  имя  ApplicationDbContext на AppDbContext )
+
+            }
+        }
+
+        public static string HashPassword(string password)
+        {
+            var passwordHasher = new PasswordHasher<ApplicationUser>();
+            return passwordHasher.HashPassword(new ApplicationUser(), password).ToString();
+        }
+
+
+
     }
 }

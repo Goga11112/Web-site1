@@ -2,10 +2,12 @@
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Repositories;
 using Web_site1.Infrastructure.Data; // Add using for AppDbContext
+using Microsoft.EntityFrameworkCore;
+using static Web_site1.Domain.Entities.ApplicationUser;
 
 namespace Web_site1.Infrastructure.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : IRepository<Product>
     {
         private readonly AppDbContext _context;
 
@@ -27,7 +29,6 @@ namespace Web_site1.Infrastructure.Repositories
         public async Task CreateAsync(Product product)
         {
             _context.Products.Add(product);
-            Console.WriteLine("В ProductRepository успешно");
             await _context.SaveChangesAsync();
         }
 
@@ -44,6 +45,21 @@ namespace Web_site1.Infrastructure.Repositories
             {
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
+            }
+        }
+
+        private decimal CalculateDiscount(ApplicationUser user)  //   Обновить   логику 
+        {
+            switch (user.Level)
+            {
+                case UserLevel.Bronze:
+                    return user.PurchaseCount >= 5 ? 0.05m : 0; //   5%  при 5  или  более  покупок 
+                case UserLevel.Silver:
+                    return user.PurchaseCount >= 10 ? 0.10m : 0;  //  10% при  10  или  более   покупок 
+                case UserLevel.Gold:
+                    return 0.15m; //  15% скидка для   gold   users
+                default:
+                    return 0;
             }
         }
     }
