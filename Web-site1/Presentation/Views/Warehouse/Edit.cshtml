@@ -1,0 +1,49 @@
+﻿@model Web_site1.Domain.Entities.Product
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Редактировать товар</h5>
+                <hr />
+                <form asp-controller="Product" asp-action="Edit" method="post" enctype="multipart/form-data" input>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="ProductImageUrl" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div> <span class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Имя товара:</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label">Цена:</label>
+                        <input asp-for="Price" type="number" class="form-control" /> <!--  используйте   `type="number"`    для  числового   ввода   -->
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label">Описание:</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProductImageFile" class="control-label">Изображение товара:</label>
+                        <input asp-for="ProductImageFile" type="file" class="form-control" />
+                        <span asp-validation-for="ProductImageFile" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Сохранить" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад к списку товаров</a>
+</div>

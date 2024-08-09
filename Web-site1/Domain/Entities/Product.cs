@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Web_site1.Domain.Entities;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,6 +31,14 @@ namespace Web_site1.Domain.Entities
 
         [NotMapped]
         public IFormFile ProductImageFile { get; set; } //  Добавим свойство  для   файла картинки
+
+
+        // Внешний ключ для связи со складом
+        //public int WarehouseId { get; set; }
+
+        // Навигационное свойство для доступа к складу
+        //public Warehouse Warehouse { get; set; }
+
 
         public IEnumerator<Product> GetEnumerator()
         {
