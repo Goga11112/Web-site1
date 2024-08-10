@@ -11,9 +11,9 @@ namespace Web_site1.Domain.Entities
 
         private UserLevel GetUserLevel()
         {
-            if (PurchaseCount >= 100)
+            if (PurchaseCount >= 5)
                 return UserLevel.Gold;
-            else if (PurchaseCount >= 50)
+            else if (PurchaseCount >= 3)
                 return UserLevel.Silver;
             else
                 return UserLevel.Bronze;
