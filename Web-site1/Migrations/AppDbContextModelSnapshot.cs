@@ -74,7 +74,7 @@ namespace Web_site1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouse");
+                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.Product", b =>
@@ -82,7 +82,7 @@ namespace Web_site1.Migrations
                     b.HasOne("Web_site1.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("Products")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Warehouse");

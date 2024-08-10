@@ -1,0 +1,36 @@
+﻿@model Web_site1.Domain.Entities.Warehouse
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Редактирование";
+}
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Редактировать склад</h5>
+                <hr />
+                <form asp-controller="Warehouse" asp-action="Edit_w" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" /> <div asp-validation-summary="ModelOnly" class="text-danger"></div> <span class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label">Имя склада:</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label">Адрес склада:</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Сохранить" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Назад к списку товаров</a>
+</div>

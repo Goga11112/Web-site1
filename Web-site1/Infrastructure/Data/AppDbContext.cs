@@ -12,6 +12,7 @@ namespace Web_site1.Infrastructure.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
         // ... (другие DbSet для других моделей)
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,8 +25,8 @@ namespace Web_site1.Infrastructure.Data
                 .HasOne(p => p.Warehouse) // У товара один склад 
                 .WithMany(w => w.Products) // У склада много товаров
                 .HasForeignKey(p => p.WarehouseId) // Внешний ключ в таблице Products
-                .OnDelete(DeleteBehavior.Cascade); // Действие при удалении склада (здесь - ограничение) 
-
+               .OnDelete(DeleteBehavior.Cascade); // Действие при удалении склада (здесь - ограничение) 
+       
 
             base.OnModelCreating(modelBuilder);
             Console.WriteLine("AppDbContext в норме");

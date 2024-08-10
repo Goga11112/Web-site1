@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Web_site1.Domain.Entities.Product>
+﻿@model IEnumerable<Web_site1.Domain.Entities.Warehouse>
 @{
-    ViewData["Title"] = "Товары";
+    ViewData["Title"] = "Склады";
 }
 
-<h1>Товары</h1>
+<h1>Склады</h1>
 <form asp-action="Index" method="get">
     <div class="input-group mb-3">
         <input type="text" class="form-control" name="search" placeholder="Поиск по имени продукта">
@@ -14,26 +14,23 @@
 </form>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Создать</a>
     <form asp-controller="Warehouse" asp-action="Create_w" method="post">
         <button type="submit" class="btn btn-primary">Создать склад</button>
     </form>
 </p>
 
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var warehouse in Model)
     {
         <div class="col-md-4 mb-3">
             <div class="card h-100">
-                <img src="@item.ProductImageUrl" class="card-img-top" alt="@item.Name">
                 <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text">Цена: @(item.Price.ToString("C"))</p>
+                    <h5 class="card-title">@warehouse.Name</h5>
+                    <p class="card-text">@warehouse.Address</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Редактировать</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
+                            <a asp-action="Edit" asp-route-id="@warehouse.Id" class="btn btn-outline-secondary">Редактировать</a>
+                            <a asp-action="Delete" asp-route-id="@warehouse.Id" class="btn btn-outline-danger">Удалить</a>
                         </div>
                     </div>
                 </div>

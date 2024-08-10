@@ -27,7 +27,6 @@ namespace Web_site1.Infrastructure.Repositories
         public async Task CreateAsync(Product product)
         {
             _context.Products.Add(product);
-            Console.WriteLine("В ProductRepository успешно");
             await _context.SaveChangesAsync();
         }
 

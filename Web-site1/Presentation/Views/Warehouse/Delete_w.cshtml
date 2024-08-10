@@ -1,0 +1,25 @@
+﻿@model Web_site1.Domain.Entities.Warehouse
+
+@{
+    ViewData["Title"] = "Удаление склада";
+}
+
+<h2>Удаление склада</h2>
+
+<h3>Вы действительно хотите удалить склад "@Model.Name"?</h3>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <form asp-controller="Warehouse" asp-action="Delete_w" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <input type="submit" value="Подтвердить удаление" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

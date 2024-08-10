@@ -34,10 +34,10 @@ namespace Web_site1.Domain.Entities
 
 
         // Внешний ключ для связи со складом
-        //public int WarehouseId { get; set; }
+        public int WarehouseId { get; set; }
 
         // Навигационное свойство для доступа к складу
-        //public Warehouse Warehouse { get; set; }
+        public Warehouse Warehouse { get; set; }
 
 
         public IEnumerator<Product> GetEnumerator()
