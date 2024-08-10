@@ -4,6 +4,9 @@ using Web_site1.Domain.Entities;
 using Microsoft.AspNetCore.Hosting; //  Для  `IWebHostEnvironment`
 using Microsoft.AspNetCore.Http;  //   Для   `IFormFile` 
 using Azure.Messaging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Web_site1.Infrastructure.Data;
 
 namespace Web_site1.Presentation.Controllers
 {
@@ -12,17 +15,27 @@ namespace Web_site1.Presentation.Controllers
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _env;
         private readonly IWarehouseService _warehouseService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AppDbContext _context;
 
-        public ProductController(IProductService productService, IWebHostEnvironment env, IWarehouseService warehouseService)
+        public ProductController(IProductService productService, IWebHostEnvironment env, IWarehouseService warehouseService, UserManager<ApplicationUser> userManager, AppDbContext context)
         {
             _productService = productService;
             _env = env;
             _warehouseService = warehouseService; //  <- Инициализируем _warehouseService
+            _userManager = userManager;
+            _context = context;
         }
 
 
         public async Task<IActionResult> Index(string search)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                ViewData["Email"] = user.Email;
+            }
+
             var products = await _productService.GetAllProductsAsync();
 
             //  Фильтрация  
@@ -38,31 +51,31 @@ namespace Web_site1.Presentation.Controllers
         {
             return View();
         }
-       
+
         public async Task<IActionResult> Create()
         {
-             ViewBag.Warehouses = await _warehouseService.GetAllWarehousesAsync();
+            ViewBag.Warehouses = await _warehouseService.GetAllWarehousesAsync();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product) 
+        public async Task<IActionResult> Create(Product product)
         {
-           
+
             try
             {
-                if ((product.ProductImageFile != null)&&(product.Name!=null)&&(product.Price != 0))
+                if ((product.ProductImageFile != null) && (product.Name != null) && (product.Price != 0))
                 {
-                        //  Сохраняем  картинку   на  диске:
-                        string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
-                        product.ProductImageUrl = "/images/uploads/" + uniqueFileName;  //   Путь   к   картинке   в  `wwwroot`
-                        Console.WriteLine("Спрошло сохранение в базу");
+                    //  Сохраняем  картинку   на  диске:
+                    string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
+                    product.ProductImageUrl = "/images/uploads/" + uniqueFileName;  //   Путь   к   картинке   в  `wwwroot`
+                    Console.WriteLine("Спрошло сохранение в базу");
 
-                        // Сохраняем   товар  в   базу: 
-                        await _productService.CreateProductAsync(product);
-                        Console.WriteLine("Успешно добавлен в базу данных");
-                        return RedirectToAction(nameof(Index));
+                    // Сохраняем   товар  в   базу: 
+                    await _productService.CreateProductAsync(product);
+                    Console.WriteLine("Успешно добавлен в базу данных");
+                    return RedirectToAction(nameof(Index));
                 }
             }
             catch (Exception ex)
@@ -198,9 +211,32 @@ namespace Web_site1.Presentation.Controllers
                 Console.WriteLine($"Ошибка при удалении продукта: {ex.Message}");
                 return RedirectToAction(nameof(Index)); // Или, return View(product)
             }
+
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Buy(int productId)
+        {
+            // Получаем текущего пользователя
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                // Если пользователь не авторизован, перенаправляем его на страницу логина
+                return RedirectToAction("Login", "Account");
+            }
 
+            // Логика для добавления товара в заказ
+            // Здесь можно добавить товар в корзину или создать новый заказ
+
+            // Увеличиваем счетчик покупок
+            user.PurchaseCount++;
+            // Сохраняем изменения в базе данных
+            await _userManager.UpdateAsync(user);
+            await _context.SaveChangesAsync();
+
+            // Перенаправляем пользователя на страницу с товарами или на страницу подтверждения заказа
+            return RedirectToAction("Index", "Product");
+        }
 
     }
 }

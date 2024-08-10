@@ -34,6 +34,9 @@
                         <div class="btn-group">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Редактировать</a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
+                            <form asp-action="Buy" method="post" asp-route-productId="@item.Id">
+                                <button type="submit" class="btn btn-primary">Купить</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -41,4 +44,3 @@
         </div>
     }
 </div>
-

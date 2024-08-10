@@ -17,11 +17,24 @@
                     <a class="nav-link" asp-controller="Warehouse" asp-action="Index_w">Склады</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" asp-controller="Product" asp-action="About">Об разработчике</a>
                 </li>
+                <nav>
+                    <!-- Другие ссылки -->
+                    <a asp-controller="Account" asp-action="Users">Пользователи</a>
+                </nav>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        @await Html.PartialAsync("_LoginPartial") <!-- Вставка частичного представления -->
+                    </ul>
+                </div>
                 <!-- ... другие ссылки на разделы сайта ... -->
             </ul>
         </nav>
+       
     </header>
 
     <div class="container mt-4">

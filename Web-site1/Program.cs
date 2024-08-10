@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Web_site1.Domain.Entities;
 using Web_site1.Domain.Repositories;
 using Web_site1.Domain.Services;
 using Web_site1.Infrastructure.Data;
@@ -11,6 +13,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();  // Добавляем обработчик REST API
+
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+       .AddEntityFrameworkStores<AppDbContext>()
+       .AddDefaultTokenProviders();
+
 
 builder.Services.AddScoped<IProductService, ProductService>();
 //   Регистрация   репозитория  (IProductRepository):
@@ -28,6 +36,7 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
     options.ViewLocationFormats.Insert(0, "/Presentation/Views/Product/{0}.cshtml");
     options.ViewLocationFormats.Insert(1, "/Presentation/Views/Shared/{0}.cshtml"); 
     options.ViewLocationFormats.Insert(2, "/Presentation/Views/Warehouse/{0}.cshtml");
+    options.ViewLocationFormats.Insert(2, "/Presentation/Views/Account/{0}.cshtml");
 
 });
 
