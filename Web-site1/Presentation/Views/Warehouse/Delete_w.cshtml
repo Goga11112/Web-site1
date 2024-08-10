@@ -12,7 +12,7 @@
     <div class="col-md-4 mb-3">
         <div class="card h-100">
             <div class="card-body">
-                <form asp-controller="Warehouse" asp-action="Delete_w" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+                <form asp-controller="Warehouse" asp-action="Delete_w" asp-route-id="@Model.Id" method="post">
                     @Html.AntiForgeryToken()
                     <div class="form-group">
                         <input type="submit" value="Подтвердить удаление" class="btn btn-primary" />

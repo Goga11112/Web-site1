@@ -60,6 +60,10 @@ app.MapControllerRoute(
     name: "warehouses",
     pattern: "Warehouse/{action=Index}/{id?}",
     defaults: new { controller = "Warehouse" }); // Обратите внимание на имя контроллера!
+app.MapControllerRoute(
+    name: "createWarehouse",
+    pattern: "Warehouse/Create_w",
+    defaults: new { controller = "Warehouse", action = "Create_w" });
 
 app.MapControllerRoute(
     name: "default",

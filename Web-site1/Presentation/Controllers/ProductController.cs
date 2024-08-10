@@ -11,13 +11,15 @@ namespace Web_site1.Presentation.Controllers
     {
         private readonly IProductService _productService;
         private readonly IWebHostEnvironment _env;
+        private readonly IWarehouseService _warehouseService;
 
-        public ProductController(IProductService productService, IWebHostEnvironment env)
+        public ProductController(IProductService productService, IWebHostEnvironment env, IWarehouseService warehouseService)
         {
             _productService = productService;
             _env = env;
+            _warehouseService = warehouseService; //  <- Инициализируем _warehouseService
         }
-        
+
 
         public async Task<IActionResult> Index(string search)
         {
@@ -36,16 +38,18 @@ namespace Web_site1.Presentation.Controllers
         {
             return View();
         }
-        public IActionResult Create()
+       
+        public async Task<IActionResult> Create()
         {
+             ViewBag.Warehouses = await _warehouseService.GetAllWarehousesAsync();
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product) 
         {
+           
             try
             {
                 if ((product.ProductImageFile != null)&&(product.Name!=null)&&(product.Price != 0))
@@ -59,7 +63,6 @@ namespace Web_site1.Presentation.Controllers
                         await _productService.CreateProductAsync(product);
                         Console.WriteLine("Успешно добавлен в базу данных");
                         return RedirectToAction(nameof(Index));
-
                 }
             }
             catch (Exception ex)

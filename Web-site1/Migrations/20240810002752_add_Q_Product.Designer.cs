@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_site1.Infrastructure.Data;
 
@@ -10,9 +11,11 @@ using Web_site1.Infrastructure.Data;
 namespace Web_site1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240810002752_add_Q_Product")]
+    partial class add_Q_Product
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +44,11 @@ namespace Web_site1.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -51,22 +59,7 @@ namespace Web_site1.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Web_site1.Domain.Entities.ProductWarehouse", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId", "WarehouseId");
-
-                    b.HasIndex("WarehouseId");
-
-                    b.ToTable("ProductWarehouse");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.Warehouse", b =>
@@ -93,41 +86,17 @@ namespace Web_site1.Migrations
             modelBuilder.Entity("Web_site1.Domain.Entities.Product", b =>
                 {
                     b.HasOne("Web_site1.Domain.Entities.Warehouse", "Warehouse")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("Web_site1.Domain.Entities.ProductWarehouse", b =>
-                {
-                    b.HasOne("Web_site1.Domain.Entities.Product", "Product")
-                        .WithMany("ProductWarehouses")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Web_site1.Domain.Entities.Warehouse", "Warehouse")
-                        .WithMany("ProductWarehouses")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Warehouse");
-                });
-
-            modelBuilder.Entity("Web_site1.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("ProductWarehouses");
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.Warehouse", b =>
                 {
-                    b.Navigation("ProductWarehouses");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

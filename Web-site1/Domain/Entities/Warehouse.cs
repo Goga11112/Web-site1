@@ -23,7 +23,7 @@ namespace Web_site1.Domain.Entities
         // public bool IsActive { get; set; }
 
         // Ссылка на товары, хранящиеся на складе (один-ко-многим)
-        public List<Product> Products { get; set; }
+        public List<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>();
 
         public IEnumerator<Warehouse> GetEnumerator()
         {

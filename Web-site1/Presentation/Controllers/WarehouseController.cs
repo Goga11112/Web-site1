@@ -41,7 +41,7 @@ namespace Web_site1.Presentation.Controllers
                     // Сохраняем   склад  в   базу: 
                     await _warehouseService.CreateWarehouseAsync(warehouse);
                     Console.WriteLine("Склад добавлен в базу данных");
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index_w));
 
                 }
             }
@@ -104,7 +104,7 @@ namespace Web_site1.Presentation.Controllers
             return View(warehouse);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Delete_w")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -115,7 +115,7 @@ namespace Web_site1.Presentation.Controllers
             {
                 await _warehouseService.DeleteWarehouseAsync(id);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index_w");
         }
     }
 }

@@ -32,6 +32,11 @@ namespace Web_site1.Domain.Entities
         [NotMapped]
         public IFormFile ProductImageFile { get; set; } //  Добавим свойство  для   файла картинки
 
+        [Display(Name = "Количество")]
+        [Required(ErrorMessage = "Введите количество")]
+        public int Quantity { get; set; }
+
+        public List<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>();
 
         // Внешний ключ для связи со складом
         public int WarehouseId { get; set; }

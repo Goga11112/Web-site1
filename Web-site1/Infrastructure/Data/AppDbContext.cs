@@ -17,16 +17,22 @@ namespace Web_site1.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().ToTable("Products")
-                .Property(p => p.ProductImageUrl)
-                .HasMaxLength(255); //  Добавьте  этот  код
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ProductWarehouse>()
+                .HasKey(pw => new { pw.ProductId, pw.WarehouseId });
 
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Warehouse) // У товара один склад 
-                .WithMany(w => w.Products) // У склада много товаров
-                .HasForeignKey(p => p.WarehouseId) // Внешний ключ в таблице Products
-               .OnDelete(DeleteBehavior.Cascade); // Действие при удалении склада (здесь - ограничение) 
-       
+            modelBuilder.Entity<ProductWarehouse>()
+                .HasOne(pw => pw.Product)
+                .WithMany(p => p.ProductWarehouses)
+                .HasForeignKey(pw => pw.ProductId)
+                .OnDelete(DeleteBehavior.Cascade); // Убедитесь, что поведение удаления настроено правильно
+
+            modelBuilder.Entity<ProductWarehouse>()
+                .HasOne(pw => pw.Warehouse)
+                .WithMany(w => w.ProductWarehouses)
+                .HasForeignKey(pw => pw.WarehouseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             base.OnModelCreating(modelBuilder);
             Console.WriteLine("AppDbContext в норме");
