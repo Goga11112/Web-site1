@@ -15,10 +15,6 @@
         var product = productWarehouse.Product;
         <div class="col-md-4 mb-3">
             <div class="card h-100">
-                @if (!string.IsNullOrEmpty(product.ProductImageUrl))
-                {
-                    <img src="@Url.Content("~/images/uploads/" + product.ProductImageUrl)" class="card-img-top" alt="@product.Name">
-                }
                 <div class="card-body">
                     <h5 class="card-title">@product.Name</h5>
                     <p class="card-text">@product.Description</p>

@@ -376,7 +376,7 @@ namespace Web_site1.Migrations
                     b.HasOne("Web_site1.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("ProductWarehouses")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");

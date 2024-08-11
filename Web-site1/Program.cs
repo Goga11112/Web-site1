@@ -12,7 +12,7 @@ using Web_site1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
-   options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Web-site1;Trusted_Connection=True;MultipleActiveResultSets=true"));
+   options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Web-site2;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();  // Добавляем обработчик REST API

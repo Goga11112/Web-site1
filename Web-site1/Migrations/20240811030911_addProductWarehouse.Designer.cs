@@ -12,7 +12,7 @@ using Web_site1.Infrastructure.Data;
 namespace Web_site1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240811020903_addProductWarehouse")]
+    [Migration("20240811030911_addProductWarehouse")]
     partial class addProductWarehouse
     {
         /// <inheritdoc />
@@ -379,7 +379,7 @@ namespace Web_site1.Migrations
                     b.HasOne("Web_site1.Domain.Entities.Warehouse", "Warehouse")
                         .WithMany("ProductWarehouses")
                         .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
