@@ -7,6 +7,7 @@ using Azure.Messaging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_site1.Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web_site1.Presentation.Controllers
 {
@@ -34,6 +35,12 @@ namespace Web_site1.Presentation.Controllers
             if (user != null)
             {
                 ViewData["Email"] = user.Email;
+                // Передача ранга пользователя в представление
+                ViewBag.UserRank = user?.Rank ?? UserRank.Bronze;
+            }
+            else
+            {
+                ViewBag.UserRank = UserRank.Bronze; // Например, если пользователь не залогинен, назначаем минимальный ранг
             }
 
             var products = await _productService.GetAllProductsAsync();
@@ -56,7 +63,7 @@ namespace Web_site1.Presentation.Controllers
         {
             ViewBag.Warehouses = await _warehouseService.GetAllWarehousesAsync();
             return View();
-        }
+        }    
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -112,6 +119,10 @@ namespace Web_site1.Presentation.Controllers
             {
                 return NotFound();
             }
+
+            var warehouses = await _warehouseService.GetAllWarehousesAsync();
+            ViewBag.Warehouses = warehouses.Select(w => new { w.Id, w.Name }).ToList();
+
             return View(product);
         }
 
@@ -224,12 +235,12 @@ namespace Web_site1.Presentation.Controllers
                 // Если пользователь не авторизован, перенаправляем его на страницу логина
                 return RedirectToAction("Login", "Account");
             }
-
             // Логика для добавления товара в заказ
             // Здесь можно добавить товар в корзину или создать новый заказ
 
             // Увеличиваем счетчик покупок
             user.PurchaseCount++;
+            user.UpdateUserRank();
             // Сохраняем изменения в базе данных
             await _userManager.UpdateAsync(user);
             await _context.SaveChangesAsync();
@@ -237,6 +248,7 @@ namespace Web_site1.Presentation.Controllers
             // Перенаправляем пользователя на страницу с товарами или на страницу подтверждения заказа
             return RedirectToAction("Index", "Product");
         }
+
 
     }
 }

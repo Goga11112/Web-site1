@@ -7,20 +7,26 @@ namespace Web_site1.Domain.Entities
         public int PurchaseCount { get; set; }
 
         // Это свойство будет определять уровень пользователя на основе количества покупок
-        public UserLevel Level => GetUserLevel();
+        public UserRank Rank { get; set; }
 
-        private UserLevel GetUserLevel()
+        public void UpdateUserRank()
         {
             if (PurchaseCount >= 5)
-                return UserLevel.Gold;
+            {
+                Rank = UserRank.Gold;
+            }
             else if (PurchaseCount >= 3)
-                return UserLevel.Silver;
+            {
+                Rank = UserRank.Silver;
+            }
             else
-                return UserLevel.Bronze;
+            {
+                Rank = UserRank.Bronze;
+            }
         }
     }
 
-    public enum UserLevel
+    public enum UserRank
     {
         Bronze,
         Silver,

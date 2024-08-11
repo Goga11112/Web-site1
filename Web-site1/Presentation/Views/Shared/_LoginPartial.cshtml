@@ -2,6 +2,8 @@
 @using Web_site1.Domain.Entities
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+
 <style>
     /* Общие стили для навигационных элементов */
     .navbar-nav .nav-item {
@@ -9,7 +11,7 @@
     }
 
     .navbar-nav .nav-link {
-        color: #ffffff; /* Белый текст для ссылок */
+        color: #ff000f; /* Белый текст для ссылок */
         padding: 10px 15px;
         border-radius: 5px;
         transition: background-color 0.3s ease-in-out;
@@ -21,7 +23,7 @@
 
     /* Стили для кнопки "Выйти" */
     .navbar-nav .btn-link {
-        color: #ffffff; /* Белый текст для кнопки */
+        color: #ff111f; /* Белый текст для кнопки */
         text-decoration: none;
         padding: 10px 15px;
         border-radius: 5px;
@@ -38,6 +40,9 @@
         padding: 0;
     }
 </style>
+
+
+
 @if (SignInManager.IsSignedIn(User))
 {
     <ul class="navbar-nav">

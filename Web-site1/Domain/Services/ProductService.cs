@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Services;
 using Web_site1.Infrastructure.Data; // Убедитесь, что пространство имен верное
@@ -8,20 +9,30 @@ namespace Web_site1.Domain.Services // Используйте то же прос
     public class ProductService : IProductService
     {
         private readonly AppDbContext _dbContext; //  <- Предполагается, что у вас есть DbContext
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductService(AppDbContext context)
+        public ProductService(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _dbContext = context;
         }
 
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-                Console.WriteLine("В IProductService все хорошо");
-            
             return await _dbContext.Products.ToListAsync();
         }
 
+        public async Task<Product> GetProductWithDiscountAsync(int productId, string userId)
+        {
+            var product = await _dbContext.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return null;
+            }
+
+            return product;
+        }
         public async Task<Product> GetProductByIdAsync(int id)
         {
             return await _dbContext.Products.FindAsync(id);
