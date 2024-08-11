@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using MyClothingApp.Domain.Repositories;
 using MyClothingApp.Domain.Services;
 using MyClothingApp.Infrastructure.Repositories;
+using System.Net.Sockets;
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Repositories;
 using Web_site1.Domain.Services;
@@ -12,7 +14,7 @@ using Web_site1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
-   options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Web-site2;Trusted_Connection=True;MultipleActiveResultSets=true"));
+   options.UseSqlServer("Server = Localhost,1433; Database = Web-site2; User Id = sa; Password = 191202G@v;Encrypt=True;TrustServerCertificate=True;"));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();  // Добавляем обработчик REST API
@@ -30,7 +32,6 @@ builder.Services.AddScoped<IProductWarehouseRepository, ProductWarehouseReposito
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 
 
 builder.Services.Configure<RazorViewEngineOptions>(options =>
