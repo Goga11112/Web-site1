@@ -1,0 +1,31 @@
+﻿@model Web_site1.Domain.Entities.Warehouse
+
+@{
+    ViewData["Title"] = "Склад";
+}
+
+<h1>@Model.Name</h1>
+<p>@Model.Address</p>
+
+<h2>Продукты на складе</h2>
+<div class="row">
+
+    @foreach (var productWarehouse in Model.ProductWarehouses)
+    {
+        var product = productWarehouse.Product;
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                @if (!string.IsNullOrEmpty(product.ProductImageUrl))
+                {
+                    <img src="@Url.Content("~/images/uploads/" + product.ProductImageUrl)" class="card-img-top" alt="@product.Name">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p class="card-text">Цена: @(product.Price.ToString("C"))</p>
+                    <p class="card-text">Количество: @productWarehouse.Quantity</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

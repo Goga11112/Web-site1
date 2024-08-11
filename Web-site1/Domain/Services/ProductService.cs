@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_site1.Domain.Entities;
+using Web_site1.Domain.Repositories;
 using Web_site1.Domain.Services;
 using Web_site1.Infrastructure.Data; // Убедитесь, что пространство имен верное
 
@@ -10,13 +11,20 @@ namespace Web_site1.Domain.Services // Используйте то же прос
     {
         private readonly AppDbContext _dbContext; //  <- Предполагается, что у вас есть DbContext
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IRepository<ProductWarehouse> _productWarehouseRepository; //  Добавить  репозиторий  ProductWarehouse
 
         public ProductService(AppDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _dbContext = context;
         }
+       
 
+        public async Task CreateProductWarehouseAsync(ProductWarehouse productWarehouse)
+        {
+            _productWarehouseRepository.CreateAsync(productWarehouse);
+            await _dbContext.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {

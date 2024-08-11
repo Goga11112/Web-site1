@@ -25,8 +25,8 @@ namespace Web_site1.Domain.Entities
         [Required(ErrorMessage = "Введите описание")]
         public string Description { get; set; }
 
-        [Display(Name = "Изображение    продукта")]
-        [NotMapped]
+        [Display(Name = "Изображение продукта")]
+        [StringLength(255, ErrorMessage = "Ссылка на изображение не должна превышать 255 символов.")]
         public string ProductImageUrl { get; set; } = string.Empty;
 
         [NotMapped]

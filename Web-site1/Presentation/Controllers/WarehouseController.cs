@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Web_site1.Application.Services;
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Services;
+using Web_site1.Infrastructure.Data;
 
 namespace Web_site1.Presentation.Controllers
 {
@@ -10,10 +11,13 @@ namespace Web_site1.Presentation.Controllers
     public class WarehouseController : Controller
     {
         private readonly IWarehouseService _warehouseService;
+        private readonly AppDbContext _context;
 
-        public WarehouseController(IWarehouseService warehouseService)
+
+        public WarehouseController(IWarehouseService warehouseService, AppDbContext context)
         {
             _warehouseService = warehouseService;
+            _context = context;
         }
 
         // Пример использования в методе действия
@@ -116,6 +120,21 @@ namespace Web_site1.Presentation.Controllers
                 await _warehouseService.DeleteWarehouseAsync(id);
             }
             return RedirectToAction("Index_w");
+        }
+
+        public async Task<IActionResult> Details_w(int id)
+        {
+            var warehouse = await _context.Warehouses
+                .Include(w => w.ProductWarehouses)
+                    .ThenInclude(pw => pw.Product) // Загрузите продукты через ProductWarehouse
+                .FirstOrDefaultAsync(w => w.Id == id);
+
+            if (warehouse == null)
+            {
+                return NotFound();
+            }
+
+            return View(warehouse);
         }
     }
 }

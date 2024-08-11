@@ -246,6 +246,11 @@ namespace Web_site1.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -256,7 +261,7 @@ namespace Web_site1.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.ProductWarehouse", b =>
@@ -267,11 +272,14 @@ namespace Web_site1.Migrations
                     b.Property<int>("WarehouseId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId", "WarehouseId");
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ProductWarehouse");
+                    b.ToTable("ProductWarehouses");
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.Warehouse", b =>

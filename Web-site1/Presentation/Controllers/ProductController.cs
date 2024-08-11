@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_site1.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Web_site1.Domain.Repositories;
+using MyClothingApp.Domain.Services;
 
 namespace Web_site1.Presentation.Controllers
 {
@@ -18,14 +20,16 @@ namespace Web_site1.Presentation.Controllers
         private readonly IWarehouseService _warehouseService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AppDbContext _context;
+        private readonly IProductWarehouseService _productWarehouseService; //  Добавить  репозиторий  ProductWarehouse
 
-        public ProductController(IProductService productService, IWebHostEnvironment env, IWarehouseService warehouseService, UserManager<ApplicationUser> userManager, AppDbContext context)
+        public ProductController(IProductService productService, IWebHostEnvironment env, IProductWarehouseService productWarehouseService, IWarehouseService warehouseService, UserManager<ApplicationUser> userManager, AppDbContext context)
         {
             _productService = productService;
             _env = env;
-            _warehouseService = warehouseService; //  <- Инициализируем _warehouseService
+            _warehouseService = warehouseService; 
             _userManager = userManager;
             _context = context;
+            _productWarehouseService = productWarehouseService;
         }
 
 
@@ -63,13 +67,12 @@ namespace Web_site1.Presentation.Controllers
         {
             ViewBag.Warehouses = await _warehouseService.GetAllWarehousesAsync();
             return View();
-        }    
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-
             try
             {
                 if ((product.ProductImageFile != null) && (product.Name != null) && (product.Price != 0))
@@ -77,10 +80,21 @@ namespace Web_site1.Presentation.Controllers
                     //  Сохраняем  картинку   на  диске:
                     string uniqueFileName = UploadedFile(product.ProductImageFile);  //   Имя  файла 
                     product.ProductImageUrl = "/images/uploads/" + uniqueFileName;  //   Путь   к   картинке   в  `wwwroot`
-                    Console.WriteLine("Спрошло сохранение в базу");
 
-                    // Сохраняем   товар  в   базу: 
+                    //  Сохраняем   товар  в   базу: 
                     await _productService.CreateProductAsync(product);
+
+                    //  Создаем  ProductWarehouse  после  сохранения  продукта
+                    var productWarehouse = new ProductWarehouse
+                    {
+                        ProductId = product.Id,
+                        WarehouseId = product.WarehouseId,
+                        Quantity = product.Quantity
+                    };
+
+                    //  Сохраняем  ProductWarehouse  в  базе  данных
+                    await _productWarehouseService.CreateProductWarehouseAsync(productWarehouse);
+
                     Console.WriteLine("Успешно добавлен в базу данных");
                     return RedirectToAction(nameof(Index));
                 }

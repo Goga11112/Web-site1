@@ -14,28 +14,29 @@ namespace Web_site1.Infrastructure.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<ProductWarehouse> ProductWarehouses { get; set; }
         // ... (другие DbSet для других моделей)
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>().ToTable("Products");
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ProductWarehouse>()
-                .HasKey(pw => new { pw.ProductId, pw.WarehouseId });
+           .HasKey(pw => new { pw.ProductId, pw.WarehouseId });
 
             modelBuilder.Entity<ProductWarehouse>()
                 .HasOne(pw => pw.Product)
                 .WithMany(p => p.ProductWarehouses)
-                .HasForeignKey(pw => pw.ProductId)
-                .OnDelete(DeleteBehavior.Cascade); // Убедитесь, что поведение удаления настроено правильно
+                .HasForeignKey(pw => pw.ProductId);
 
             modelBuilder.Entity<ProductWarehouse>()
                 .HasOne(pw => pw.Warehouse)
                 .WithMany(w => w.ProductWarehouses)
-                .HasForeignKey(pw => pw.WarehouseId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(pw => pw.WarehouseId);
 
 
-            base.OnModelCreating(modelBuilder);
+
             Console.WriteLine("AppDbContext в норме");
         }
     }

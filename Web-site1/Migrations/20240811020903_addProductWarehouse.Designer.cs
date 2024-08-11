@@ -12,8 +12,8 @@ using Web_site1.Infrastructure.Data;
 namespace Web_site1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240810011857_Addregistr_Log")]
-    partial class Addregistr_Log
+    [Migration("20240811020903_addProductWarehouse")]
+    partial class addProductWarehouse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,9 +177,6 @@ namespace Web_site1.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -204,6 +201,9 @@ namespace Web_site1.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("PurchaseCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rank")
                         .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
@@ -249,6 +249,11 @@ namespace Web_site1.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -259,7 +264,7 @@ namespace Web_site1.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.ProductWarehouse", b =>
@@ -270,11 +275,14 @@ namespace Web_site1.Migrations
                     b.Property<int>("WarehouseId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId", "WarehouseId");
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("ProductWarehouse");
+                    b.ToTable("ProductWarehouses");
                 });
 
             modelBuilder.Entity("Web_site1.Domain.Entities.Warehouse", b =>

@@ -14,5 +14,7 @@ namespace Web_site1.Domain.Entities
 
         // Добавьте свойство навигации Warehouse
         public Warehouse Warehouse { get; set; }
+
+        public int Quantity { get; set; } // Количество продукта на складе
     }
 }

@@ -22,8 +22,9 @@ namespace Web_site1.Domain.Entities
         // public string PhoneNumber { get; set; }
         // public bool IsActive { get; set; }
 
+
         // Ссылка на товары, хранящиеся на складе (один-ко-многим)
-        public List<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>();
+        public ICollection<ProductWarehouse> ProductWarehouses { get; set; } = new List<ProductWarehouse>();
 
         public IEnumerator<Warehouse> GetEnumerator()
         {

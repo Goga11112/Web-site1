@@ -19,7 +19,10 @@ public class WarehouseService : IWarehouseService
 
     public async Task<Warehouse> GetWarehouseByIdAsync(int id)
     {
-        return await _context.Warehouses.FindAsync(id);
+        return await _context.Warehouses
+        .Include(w => w.ProductWarehouses) //  Добавить  Include  для  загрузки  ProductWarehouses
+        .ThenInclude(pw => pw.Product) //  Добавить  ThenInclude  для  загрузки  Product
+        .FirstOrDefaultAsync(w => w.Id == id);
     }
 
     public async Task<Warehouse> CreateWarehouseAsync(Warehouse warehouse)
