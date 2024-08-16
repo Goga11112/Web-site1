@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>14f3f066-15e2-45f8-949b-118063f48a58</ProjectGuid>
+    <ProjectGuid>7bf7a944-457c-4e3d-8c7f-786c7c6867f4</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>web-site1</DockerServiceName>

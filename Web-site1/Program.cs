@@ -19,7 +19,7 @@ var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 var dbPASSWORD = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 var connectionString = $"Server={dbHost};Database={dbName};User Id = sa; Password = {dbPASSWORD};Encrypt=True;TrustServerCertificate=True; ";
-var connectionString1 = "Server=localhost,1433; Database=Web-site2; User Id = sa; Password = 191202G@v;Encrypt=True;TrustServerCertificate=True; ";
+var connectionString1 = "Server=localhost,1433 Database=Web-site2; User Id = sa; Password = 191202G@v;Encrypt=True;TrustServerCertificate=True; ";
 builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlServer(connectionString1));
 
