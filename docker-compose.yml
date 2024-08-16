@@ -1,17 +1,39 @@
-version: "3.7"
+version: '3.4'
+
+networks:
+  webnet:
+    driver: bridge
 
 services:
-  app:
-    build: .  
-    ports:
-      - "5155:5155"
-    depends_on:
-      - sqlserver
-
   sqlserver:
+    container_name: SqlServer
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: 191202G@v
     ports:
       - "1433:1433"
+    networks:
+      - webnet
+
+  web-site1:
+    container_name: web-site
+    image: ${DOCKER_REGISTRY-}website1
+    build:
+      context: .
+      dockerfile: Web-site1/Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - sqlserver   
+    environment:
+      - DB_HOST=sqlserver,1433
+      - DB_NAME=Web-site2
+      - DB_SA_PASSWORD=191202G@v
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
+    networks:
+      - webnet
+
+volumes:
+  dataprotection:

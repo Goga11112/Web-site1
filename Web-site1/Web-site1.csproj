@@ -7,6 +7,7 @@
     <RootNamespace>Web_site1</RootNamespace>
     <UserSecretsId>c661846a-f475-45aa-b0e3-d022ad4f728b</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
