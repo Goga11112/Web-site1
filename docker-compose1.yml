@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "5155:5155"
+    volumes:
+      - dataprotection:/app/.aspnet/DataProtection-Keys
+    depends_on:
+      - sqlserver
+    environment:
+      CONNECTION_STRING: "Server=sqlserver;Database=Web-site2;User Id=sa;Password=191202G@v;" 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: 191202G@v
+    ports:
+      - "1433:1433"
+volumes:
+  dataprotection:
