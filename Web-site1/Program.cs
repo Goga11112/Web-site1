@@ -1,13 +1,9 @@
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using MyClothingApp.Domain.Repositories;
 using MyClothingApp.Domain.Services;
 using MyClothingApp.Infrastructure.Repositories;
-using System.Net.Sockets;
-using System.Security.Cryptography.X509Certificates;
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Repositories;
 using Web_site1.Domain.Services;
@@ -18,8 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 var dbPASSWORD = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
-var connectionString = $"Server={dbHost};Database={dbName};User Id = sa; Password = {dbPASSWORD};Encrypt=True;TrustServerCertificate=True; ";
-var connectionString1 = "Server=localhost,1433 Database=Web-site2; User Id = sa; Password = 191202G@v;Encrypt=True;TrustServerCertificate=True; ";
+var connectionString = $"Server={dbHost},1433; Database={dbName};User Id = sa; Password = {dbPASSWORD};Encrypt=True;TrustServerCertificate=True; ";
+var connectionString1 = "Server=localhost,1433; Database=Web-site2; User Id = sa; Password = 191202G@v;Encrypt=True;TrustServerCertificate=True; ";
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlServer(connectionString1));
 
@@ -66,6 +64,14 @@ else
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    //  Добавьте SeedData:
+    SeedData.Initialize(services);
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

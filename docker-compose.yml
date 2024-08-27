@@ -27,7 +27,7 @@ services:
     depends_on:
       - sqlserver   
     environment:
-      - DB_HOST=sqlserver,1433
+      - DB_HOST=sqlserver
       - DB_NAME=Web-site2
       - DB_SA_PASSWORD=191202G@v
       - ASPNETCORE_ENVIRONMENT=Development
