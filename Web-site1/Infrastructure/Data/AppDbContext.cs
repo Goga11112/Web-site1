@@ -20,6 +20,7 @@ namespace Web_site1.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
             modelBuilder.Entity<Product>().ToTable("Products");
 
             base.OnModelCreating(modelBuilder);

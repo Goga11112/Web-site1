@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<Web_site1.Domain.Entities.Warehouse>
 @{
     ViewData["Title"] = "Склады";
+    <link rel="stylesheet" href="~/css/Warehouse.css" />
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=1d3556a5-0abc-4f83-acf7-9e61caaef2ff&lang=ru_RU" type="text/javascript">
+    </script>
 }
 
 <h1>Склады</h1>
@@ -20,18 +24,25 @@
 </p>
 
 <div class="row">
+    <div id="map" style="width: 100%; height: 400px;"></div>
+
     @foreach (var warehouse in Model)
     {
         <div class="col-md-4 mb-3">
-            <div class="card h-100">
+            <div class="card h-100" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;">
                 <div class="card-body">
                     <h5 class="card-title">@warehouse.Name</h5>
                     <p class="card-text">@warehouse.Address</p>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text">Долгота: @warehouse.Longitude</p>
+                    <p class="card-text">Широта: @warehouse.Latitude</p>
+
+                    <div class="d-flex justify-content-between">
+                        <!--- flexbox контейнер -->
                         <div class="btn-group">
-                            <a asp-action="Details_w" asp-route-id="@warehouse.Id" class="btn btn-outline-secondary">Дополнительно</a>
-                            <a asp-action="Edit_w" asp-route-id="@warehouse.Id" class="btn btn-outline-secondary">Редактировать</a>
-                            <a asp-action="Delete_w" asp-route-id="@warehouse.Id" class="btn btn-outline-danger">Удалить</a>
+                            <!---  группа кнопок -->
+                            <a asp-action="Details_w" asp-route-id="@warehouse.Id" class="btn btn-sm btn-outline-primary">Дополнительно</a> <!--- btn-sm -->
+                            <a asp-action="Edit_w" asp-route-id="@warehouse.Id" class="btn btn-sm btn-outline-secondary">Редактировать</a> <!--- btn-sm -->
+                            <a asp-action="Delete_w" asp-route-id="@warehouse.Id" class="btn btn-sm btn-outline-danger">Удалить</a> <!--- btn-sm -->
                         </div>
                     </div>
                 </div>
@@ -40,3 +51,24 @@
     }
 </div>
 
+<script type="text/javascript">
+    ymaps.ready(init);
+
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [45.035470, 38.975313], // Начальный центр карты.  Можно подставить координаты первого склада или среднее значение.
+            zoom: 7
+        });
+        @foreach (var warehouse in Model)
+        {
+            // Убедитесь, что Latitude и Longitude существуют в модели Warehouse и имеют правильный тип данных (double или float).
+            <text>
+                        var placemark_@warehouse.Id = new ymaps.Placemark([@warehouse.Latitude, @warehouse.Longitude], {
+                            // Опционально: добавить информацию о складе во всплывающее окно
+                            balloonContent: '@warehouse.Name<br>@warehouse.Address'
+                                        });
+                                myMap.geoObjects.add(placemark_@warehouse.Id);
+            </text>
+        }
+    }
+</script>

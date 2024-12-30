@@ -2,10 +2,12 @@
 using Web_site1.Domain.Entities;
 using Web_site1.Domain.Services;
 using Web_site1.Infrastructure.Data;
+using Web_site1.Presentation.Controllers;
 
 public class WarehouseService : IWarehouseService
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<WarehouseController> _logger;
 
     public WarehouseService(AppDbContext context)
     {
@@ -27,9 +29,18 @@ public class WarehouseService : IWarehouseService
 
     public async Task<Warehouse> CreateWarehouseAsync(Warehouse warehouse)
     {
-        _context.Warehouses.Add(warehouse);
-        await _context.SaveChangesAsync();
-        return warehouse;
+        try
+        {
+            _context.Warehouses.Add(warehouse);
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Создан новый склад: {@warehouse}", warehouse); // <--- Логирование
+            return warehouse;
+        }
+        catch (DbUpdateException ex) // <--- Перехват исключений базы данных
+        {
+            _logger.LogError(ex, "Ошибка при создании склада: {@warehouse}", warehouse);
+            throw; // Передаем исключение дальше для обработки в контроллере
+        }
     }
 
     public async Task<Warehouse> UpdateWarehouseAsync(int id, Warehouse warehouse)
@@ -44,6 +55,8 @@ public class WarehouseService : IWarehouseService
         // Обновление свойств склада
         existingWarehouse.Name = warehouse.Name;
         existingWarehouse.Address = warehouse.Address;
+        existingWarehouse.Longitude = warehouse.Longitude;
+        existingWarehouse.Latitude = warehouse.Latitude;
         // ... другие свойства
 
         await _context.SaveChangesAsync();

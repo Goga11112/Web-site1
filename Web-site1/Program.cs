@@ -12,7 +12,7 @@ using Web_site1.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
-   options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Web-site2;Trusted_Connection=True;MultipleActiveResultSets=true"));
+   options.UseSqlServer("Server=(localdb)\\DbWeb-site1;Database=Web-site1;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();  // Добавляем обработчик REST API
@@ -28,8 +28,11 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductWarehouseRepository, ProductWarehouseRepository>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+
+builder.Services.AddLogging();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 
 
@@ -77,7 +80,7 @@ app.MapControllerRoute(
     pattern: "Warehouse/Create_w",
     defaults: new { controller = "Warehouse", action = "Create_w" });
 app.MapControllerRoute(
-    name: "createWarehouse",
+    name: "detailsWarehouse",
     pattern: "Warehouse/Details_w",
     defaults: new { controller = "Warehouse", action = "Details_w" });
 

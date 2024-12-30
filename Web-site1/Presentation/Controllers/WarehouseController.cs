@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Geocoding.Google;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_site1.Application.Services;
 using Web_site1.Domain.Entities;
@@ -13,11 +14,11 @@ namespace Web_site1.Presentation.Controllers
         private readonly IWarehouseService _warehouseService;
         private readonly AppDbContext _context;
 
-
         public WarehouseController(IWarehouseService warehouseService, AppDbContext context)
         {
             _warehouseService = warehouseService;
             _context = context;
+           
         }
 
         // Пример использования в методе действия
@@ -29,6 +30,7 @@ namespace Web_site1.Presentation.Controllers
             {
                 warehouses = warehouses.Where(p => p.Name.ToLower().Contains(search.ToLower()));
             }
+           
 
             return View(warehouses);
         }
@@ -37,23 +39,26 @@ namespace Web_site1.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create_w(Warehouse warehouse)
         {
-            try
-            {
-                if ((warehouse.Name != null) && (warehouse.Address != null))
-                {
 
-                    // Сохраняем   склад  в   базу: 
-                    await _warehouseService.CreateWarehouseAsync(warehouse);
-                    Console.WriteLine("Склад добавлен в базу данных");
-                    return RedirectToAction(nameof(Index_w));
-
-                }
-            }
-            catch (Exception ex)
+            if (!string.IsNullOrEmpty(warehouse.Name) && !string.IsNullOrEmpty(warehouse.Address) && !string.IsNullOrEmpty(warehouse.Longitude) && !string.IsNullOrEmpty(warehouse.Latitude)) //  <---  упрощенная проверка
             {
-                Console.WriteLine(ex.Message);
+                await _warehouseService.CreateWarehouseAsync(warehouse);
+                Console.WriteLine("Склад добавлен в базу данных");
+                return RedirectToAction(nameof(Index_w));
             }
-            return View(warehouse);
+            else
+            {
+                // Добавляем ошибки в ModelState, если имя или адрес пусты
+                if (string.IsNullOrEmpty(warehouse.Name))
+                    ModelState.AddModelError(nameof(warehouse.Name), "Имя склада обязательно");
+                if (string.IsNullOrEmpty(warehouse.Address))
+                    ModelState.AddModelError(nameof(warehouse.Address), "Адрес склада обязателен");
+                if (string.IsNullOrEmpty(warehouse.Latitude))
+                    ModelState.AddModelError(nameof(warehouse.Latitude), "Долгота обязателена(указать через запятую)");
+                if (string.IsNullOrEmpty(warehouse.Longitude))
+                    ModelState.AddModelError(nameof(warehouse.Longitude), "Широта обязателена(указать через запятую)");
+            }
+            return View(warehouse); // <--- Возвращаем представление с моделью и ошибками
         }
 
         public async Task<IActionResult> Edit_w(int id)
@@ -136,5 +141,9 @@ namespace Web_site1.Presentation.Controllers
 
             return View(warehouse);
         }
+
+       
+
+
     }
 }

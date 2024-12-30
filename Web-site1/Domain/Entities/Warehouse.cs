@@ -18,6 +18,14 @@ namespace Web_site1.Domain.Entities
         [Display(Name = "Адрес склада")]
         [Required(ErrorMessage = "Введите адрес склада")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "Широта обязательна")]
+        public string Latitude { get; set; }
+
+
+        [Required(ErrorMessage = "Долгота обязательна")]
+        public string Longitude { get; set; }
+
         // Добавьте другие свойства склада по необходимости, например:
         // public string PhoneNumber { get; set; }
         // public bool IsActive { get; set; }
