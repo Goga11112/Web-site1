@@ -32,14 +32,22 @@ public class AccountController : Controller
             {
                 UserName = model.Email,
                 Email = model.Email,
-                PurchaseCount = 0, // Начальное значение покупок
+                Address = model.Address ?? "Не указано", // Указать значение по умолчанию
+                FirstName = model.FirstName ?? "Не указано",
+                LastName = model.LastName ?? "Не указано",
+                BirthDate = model.BirthDate ?? DateTime.MinValue,
+                AvatarUrl = model.AvatarUrl ?? string.Empty,
+                Bio = model.Bio ?? "Нет информации",
                 Role = model.Role,
+                Rank = UserRank.Bronze,
+                PurchaseCount = 0
             };
 
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, model.Role); // Назначаем роль
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Product");
             }

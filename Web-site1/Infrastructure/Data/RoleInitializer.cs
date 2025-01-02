@@ -6,7 +6,7 @@ public static class RoleInitializer
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        string[] roles = { "User", "Moderator", "Admin" }; // определение ролей!
+        string[] roles = { "Пользователь", "Продавец", "Администратор" }; // определение ролей!
 
         foreach (var role in roles)
         {

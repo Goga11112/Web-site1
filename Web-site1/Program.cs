@@ -90,11 +90,14 @@ app.MapControllerRoute(
     pattern: "{controller=Product}/{action=Index}/{id?}");
 
 
-app.Run();
-
-
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await RoleInitializer.InitializeAsync(services);
 }
+
+
+
+app.Run();
+
+

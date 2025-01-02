@@ -26,6 +26,10 @@
                     <a class="nav-link" asp-controller="Account" asp-action="Users">Пользователи</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Profile" asp-action="Profile">Профиль</a>
+                </li>
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         @await Html.PartialAsync("_LoginPartial") <!-- Вставка частичного представления -->

@@ -1,0 +1,52 @@
+﻿@model UserProfileViewModel;
+@{
+    ViewData["Title"] = "Профиль";
+}
+<h1>Профиль</h1>
+<form asp-action= "Profile" method= "post" >
+    <div class= "form-group" >
+        <label > Email </label >
+        <input asp -for= "Email" class= "form-control" readonly />
+    </div >
+    <div class= "form-group" >
+        <label asp -for= "FirstName" ></label >
+        <input asp -for= "FirstName" class= "form-control" />
+    </div >
+    <div class= "form-group" >
+        <label asp -for= "LastName" ></label >
+        <input asp -for= "LastName" class= "form-control" />
+    </div >
+    <div class= "form-group" >
+        <label asp -for= "Address" ></label >
+        <input asp -for= "Address" class= "form-control" />
+    </div >
+    <div class= "form-group" >
+        <label asp -for= "BirthDate" ></label >
+        <input asp -for= "BirthDate" type = "date" class= "form-control" />
+    </div >
+    <div class= "form-group" >
+        <label > Аватар </label >
+        <input asp -for= "AvatarUrl" class= "form-control" />
+        @if(!string.IsNullOrEmpty(Model.AvatarUrl))
+        {
+            <img src = "@Model.AvatarUrl" alt = "Avatar" style = "width: 100px; height: 100px;" />
+        }
+    </div >
+    <div class= "form-group" >
+        <label asp -for= "Bio" ></label >
+        <textarea asp -for= "Bio" class= "form-control" ></textarea >
+    </div >
+    <div class= "form-group" >
+        <label > Ранг </label >
+        <input asp -for= "Rank" class= "form-control" readonly />
+    </div >
+    <div class= "form-group" >
+        <label > Количество покупок </label >
+        <input asp -for= "PurchaseCount" class= "form-control" readonly />
+    </div >
+    <div class= "form-group" >
+        <label > Роль </label >
+        <input asp -for= "Role" class= "form-control" readonly />
+    </div >
+    <button type = "submit" class= "btn btn-primary" > Сохранить </button >
+</form >
