@@ -18,7 +18,8 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        var model = new RegisterViewModel();
+        return View(model);
     }
 
     [HttpPost]
@@ -31,7 +32,8 @@ public class AccountController : Controller
             {
                 UserName = model.Email,
                 Email = model.Email,
-                PurchaseCount = 0 // Начальное значение покупок
+                PurchaseCount = 0, // Начальное значение покупок
+                Role = model.Role,
             };
 
 

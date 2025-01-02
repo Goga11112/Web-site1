@@ -5,40 +5,42 @@
 
 
 <style>
-    /* Общие стили для навигационных элементов */
-    .navbar-nav .nav-item {
-        margin-left: 15px;
+    /* Style the outer list item to take up remaining space and push content to the right */
+    #navbarNav > li {
+        margin-left: auto; /* Push to the right */
+        width: auto; /* Allow the inner list to determine the width */
+        
     }
 
-    .navbar-nav .nav-link {
-        color: #ff000f; /* Белый текст для ссылок */
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease-in-out;
-    }
 
-        .navbar-nav .nav-link:hover {
-            background-color: #495057; /* Цвет фона при наведении */
+        /* Style the inner list to remove default list styling */
+        #navbarNav > li > ul {
+            list-style: none;
+            padding-left: 0; /* Remove default padding */
+            margin: 0;
         }
 
-    /* Стили для кнопки "Выйти" */
-    .navbar-nav .btn-link {
-        color: #ff111f; /* Белый текст для кнопки */
+    /* ... (previous styles) ... */
+
+    /* Style the links within the inner list as gray buttons */
+    #navbarNav a {
+       
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: #fff; /* White text */
+        background-color: #6c757d; /* Gray background */
+        border: 1px solid #6c757d; /* Gray border */
         text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background-color 0.3s ease-in-out;
+        border-radius: 0.25rem;
+        margin-left: 5px;
     }
 
-        .navbar-nav .btn-link:hover {
-            background-color: #dc3545; /* Цвет фона при наведении на кнопку */
+        #navbarNav a:hover,
+        #navbarNav a:focus {
+            color: #fff; /* White text on hover */
+            background-color: #5a6268; /* Slightly darker gray on hover */
+            border-color: #5a6268; /* Slightly darker gray border on hover */
         }
-
-    /* Стили для формы выхода */
-    #logoutForm {
-        margin: 0;
-        padding: 0;
-    }
 </style>
 
 

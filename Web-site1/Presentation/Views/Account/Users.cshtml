@@ -13,6 +13,7 @@
             <th>Уровень</th>
             <th>Количество покупок</th>
             <th>Действия</th>
+            <th>Роль</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
                 <td>@user.Email</td>
                 <td>@user.Rank</td>
                 <td>@user.PurchaseCount</td>
+                <td>@user.Role</td>
                 <td>
                     <form asp-action="DeleteUser" method="post" style="display:inline;">
                         <input type="hidden" name="userId" value="@user.Id" />

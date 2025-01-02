@@ -32,7 +32,11 @@ body {
     object-fit: cover; /*  Установите  `object-fit: cover`  для  масштабирования  изображения  с  сохранением  пропорций */
 }
 
-
+navbar-nav {
+    /* Replace .navbar-container with the actual class of your navbar's container */
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+}
 
 /* Дополнительные вкладки -->*/
 .my-carousel-wrapper {
@@ -144,3 +148,6 @@ footer {
     border-radius: 10px; /* Скругление углов  */
     font-size: 12px; /*  Уменьшенный  шрифт  */
 }
+
+
+

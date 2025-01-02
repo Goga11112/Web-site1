@@ -78,16 +78,16 @@ namespace Web_site1.Presentation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit_w(int id, Warehouse warehouse)
         {
-            if (id != warehouse.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
+                if (id != warehouse.Id)
+                {
+                    return NotFound();
+                }
+            if (!string.IsNullOrEmpty(warehouse.Name) && !string.IsNullOrEmpty(warehouse.Address) && !string.IsNullOrEmpty(warehouse.Longitude) && !string.IsNullOrEmpty(warehouse.Latitude)) //  <---  упрощенная проверка
             {
                 try
                 {
-                    await _warehouseService.UpdateWarehouseAsync(warehouse.Id,warehouse);
+                    Console.WriteLine("Попал в идит");
+                    await _warehouseService.UpdateWarehouseAsync(warehouse.Id, warehouse);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
@@ -96,8 +96,23 @@ namespace Web_site1.Presentation.Controllers
                     throw;
                 }
             }
-            return View(warehouse);
+            else
+            {
+                // Добавляем ошибки в ModelState, если имя или адрес пусты
+                if (string.IsNullOrEmpty(warehouse.Name))
+                    ModelState.AddModelError(nameof(warehouse.Name), "Имя склада обязательно");
+                if (string.IsNullOrEmpty(warehouse.Address))
+                    ModelState.AddModelError(nameof(warehouse.Address), "Адрес склада обязателен");
+                if (string.IsNullOrEmpty(warehouse.Latitude))
+                    ModelState.AddModelError(nameof(warehouse.Latitude), "Долгота обязателена(указать через запятую)");
+                if (string.IsNullOrEmpty(warehouse.Longitude))
+                    ModelState.AddModelError(nameof(warehouse.Longitude), "Широта обязателена(указать через запятую)");
+            }
+            var warehouses = await _warehouseService.GetWarehouseByIdAsync(id);
+
+            return View(warehouses);
         }
+            
 
 
         public async Task<IActionResult> Delete_w(int id)

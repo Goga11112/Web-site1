@@ -17,10 +17,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();  // Добавляем обработчик REST API
 
-
+//Использование ролей и в целом пользователей
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<AppDbContext>()
        .AddDefaultTokenProviders();
+
 
 builder.Services.AddScoped<IProductWarehouseService, ProductWarehouseService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -90,3 +91,10 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await RoleInitializer.InitializeAsync(services);
+}

@@ -45,6 +45,7 @@ public class WarehouseService : IWarehouseService
 
     public async Task<Warehouse> UpdateWarehouseAsync(int id, Warehouse warehouse)
     {
+        Console.WriteLine("Попал в сервис");
         var existingWarehouse = await _context.Warehouses.FindAsync(id);
 
         if (existingWarehouse == null)

@@ -19,5 +19,11 @@ namespace Web_site1.Models
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+
+        public List<string> AvailableRoles { get; set; } = new List<string> { "Покупатель", "Продавец", "Администратор" };
     }
 }
