@@ -1,65 +1,68 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Web_site1.Domain.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        // Количество покупок
-        public int PurchaseCount { get; set; }
+        [Required]
+        public int PurchaseCount { get; set; } = 0; // Значение по умолчанию
 
-        // Ранг пользователя (на основе количества покупок)
-        public UserRank Rank { get; set; }
+        [Required]
+        public UserRank Rank { get; set; } = UserRank.Bronze; // Значение по умолчанию
 
-        // Роль пользователя
         public string Role { get; set; }
 
-        // Имя пользователя
+        [Required]
         public string FirstName { get; set; }
 
-        // Фамилия пользователя
+        [Required]
         public string LastName { get; set; }
 
-        // Адрес пользователя
         public string Address { get; set; }
 
-        // Дата рождения
+        [DataType(DataType.Date)]
         public DateTime? BirthDate { get; set; }
 
-        // Аватар пользователя (ссылка на изображение)
         public string AvatarUrl { get; set; }
 
-        // Биография или описание пользователя
         public string Bio { get; set; }
 
-        // Метод для обновления ранга пользователя на основе количества покупок
         public void UpdateUserRank()
         {
-            if (PurchaseCount >= 5)
+            Rank = PurchaseCount switch
             {
-                Rank = UserRank.Gold;
-            }
-            else if (PurchaseCount >= 3)
-            {
-                Rank = UserRank.Silver;
-            }
-            else
-            {
-                Rank = UserRank.Bronze;
-            }
+                >= 5 => UserRank.Gold,
+                >= 3 => UserRank.Silver,
+                _ => UserRank.Bronze,
+            };
         }
 
-        // Метод для получения полного имени пользователя
         public string GetFullName()
         {
             return $"{FirstName} {LastName}".Trim();
         }
+
+        // Добавленный метод для удобного обновления ранга и количества покупок 
+        public async Task UpdateUser(string userId, int productsAdded, UserManager<ApplicationUser> userManager)
+        {
+            ApplicationUser user = await userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                user.PurchaseCount += productsAdded; //Обновляем количество покупок
+                user.UpdateUserRank();
+                await userManager.UpdateAsync(user);
+            }
+        }
+
     }
 
-}
 
-public enum UserRank
+    public enum UserRank
     {
         Bronze,
         Silver,
         Gold
     }
+}

@@ -1,0 +1,18 @@
+﻿@model CartItem
+
+
+<tr>
+    <td>@Model.Product.Name</td>  @* Доступ к имени товара через Model.Product *@
+    <td>@Model.Product.Price</td> @* Доступ к цене товара через Model.Product *@
+    <td>@Model.Quantity</td>       @* Доступ к количеству в корзине *@
+    <td>@(Model.Product.Price * Model.Quantity)</td> @* Вычисление суммы *@
+    <td>
+       <form asp-action="RemoveFromCart" method="post">
+           <input type="hidden" name="productId" value="@Model.Product.Id" />
+           <button type="submit" class="btn btn-link" >Удалить</button>
+
+
+       </form>
+        
+    </td>
+</tr>

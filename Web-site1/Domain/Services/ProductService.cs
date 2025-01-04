@@ -50,6 +50,7 @@ namespace Web_site1.Domain.Services // Используйте то же прос
         {
             _dbContext.Products.Add(product);
             await _dbContext.SaveChangesAsync();
+
         }
 
         public async Task UpdateProductAsync(Product product)
@@ -67,5 +68,6 @@ namespace Web_site1.Domain.Services // Используйте то же прос
                 await _dbContext.SaveChangesAsync();
             }
         }
+
     }
 }

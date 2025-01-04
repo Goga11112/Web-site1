@@ -1,0 +1,32 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = "Корзина";
+}
+<h1>Корзина</h1>
+
+@if (Model.Items.Count == 0)
+{
+    <p>Ваша корзина пуста.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <partial name="_CartItem" model="item" />  @* Передаём item как модель *@
+            }
+        </tbody>
+    </table>
+}
+<button type="submit" asp-action="Checkout" class="btn btn-primary">Оформить заказ</button>
+<a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Продолжить покупки</a>

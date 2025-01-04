@@ -1,24 +1,16 @@
 ﻿@model IEnumerable<Web_site1.Domain.Entities.Product>
 @{
     ViewData["Title"] = "Товары";
-    var userRank = (UserRank)ViewBag.UserRank; // Получаем ранг пользователя
+    var userRank = (UserRank)ViewBag.UserRank;
 }
 
 <h1>Товары</h1>
-<form asp-action="Index" method="get">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" name="search" placeholder="Поиск по имени продукта">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="submit">Поиск</button>
-        </div>
-    </div>
-</form>
 
+<form asp-action="Index" method="get">
+</form>
 <p>
     <a asp-action="Create" class="btn btn-primary">Создать</a>
-    <form asp-controller="Warehouse" asp-action="Create_w" method="post">
-        <button type="submit" class="btn btn-primary">Создать склад</button>
-    </form>
+
 </p>
 
 <div class="row">
@@ -32,7 +24,6 @@
                     <p class="card-text">@item.Description</p>
 
                     @{
-                        // Рассчитываем цену со скидкой
                         decimal discountedPrice = item.Price;
                         switch (userRank)
                         {
@@ -51,17 +42,64 @@
                     <p class="card-text">Цена: @(item.Price.ToString("C"))</p>
                     <p class="card-text">Цена со скидкой: @(discountedPrice.ToString("C"))</p>
 
+
+
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Редактировать</a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
-                            <form asp-action="Buy" method="post" asp-route-productId="@item.Id">
-                                <button type="submit" class="btn btn-primary">Купить</button>
+
+                            <div id="add-to-cart-message-@item.Id"></div> 
+                            <form asp-controller="Basket" asp-action="AddToCart" method="post" id="add-to-cart-form-@item.Id">
+                                <input type="hidden" name="productId" value="@item.Id" />
+                                <input type="number" name="quantity" value="1" min="1" class="form-control-sm w-25" /> @* Поле для количества *@
+                                <button type="button" class="btn btn-primary btn-sm" onclick="addToCart(@item.Id)">В корзину</button>
                             </form>
+
                         </div>
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     }
 </div>
+
+
+<script>
+    function addToCart(productId) {
+        var form = $('#add-to-cart-form-' + productId);
+        var quantity = form.find('input[name="quantity"]').val();
+        var token = form.find('input[name="__RequestVerificationToken"]').val();
+
+        console.log('#add-to-cart-form-' + productId + ' input[name="quantity"]');
+        console.log({ productId: productId, quantity: quantity, __RequestVerificationToken: token });
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("AddToCart", "Basket")",
+            data: {
+                productId: productId,
+                quantity: quantity,
+                __RequestVerificationToken: token
+            },
+            success: function (result) { // Один обработчик success
+                if (result.success) {
+                    $("#add-to-cart-form-" + productId).append("<span class='text-success ml-2'>" + result.message + "</span>");
+                    $("#add-to-cart-message-" + productId).append("<div class='alert alert-success' role='alert'>" + result.message + "</div>");
+                } else {
+                    $("#add-to-cart-message-" + productId).append("<div class='alert alert-danger' role='alert'>Ошибка при добавлении товара в корзину.</div>");
+                }
+            },
+            error: function (error) {
+                console.error(error);
+                $("#add-to-cart-message-" + productId).append("<div class='alert alert-danger' role='alert'>Ошибка при добавлении товара в корзину.</div>");
+            }
+        });
+    } // Удалена лишняя }
+</script>

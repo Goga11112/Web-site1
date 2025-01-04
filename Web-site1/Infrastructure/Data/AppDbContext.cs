@@ -16,6 +16,8 @@ namespace Web_site1.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<ProductWarehouse> ProductWarehouses { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         // ... (другие DbSet для других моделей)
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

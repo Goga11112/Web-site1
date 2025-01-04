@@ -25,14 +25,15 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddScoped<IProductWarehouseService, ProductWarehouseService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-//   Регистрация   репозитория  (IProductRepository):
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductWarehouseRepository, ProductWarehouseRepository>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
-
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddLogging();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(); // Добавляем сервис сессий
 
 
 
@@ -44,6 +45,7 @@ builder.Services.Configure<RazorViewEngineOptions>(options =>
     options.ViewLocationFormats.Insert(1, "/Presentation/Views/Shared/{0}.cshtml"); 
     options.ViewLocationFormats.Insert(2, "/Presentation/Views/Warehouse/{0}.cshtml");
     options.ViewLocationFormats.Insert(2, "/Presentation/Views/Account/{0}.cshtml");
+    options.ViewLocationFormats.Insert(2, "/Presentation/Views/Basket/{0}.cshtml");
 
 });
 
@@ -98,6 +100,7 @@ using (var scope = app.Services.CreateScope())
 
 
 
+app.UseSession(); // Включаем использование сессий
 app.Run();
 
 
