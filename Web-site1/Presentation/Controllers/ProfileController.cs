@@ -33,12 +33,33 @@ namespace Web_site1.Presentation.Controllers
                 PurchaseCount = user.PurchaseCount,
                 Role = user.Role
             };
-
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View(model);
         }
 
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            var model = new UserProfileViewModel
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                BirthDate = user.BirthDate,
+                AvatarUrl = user.AvatarUrl,
+                Bio = user.Bio,
+                Rank = user.Rank,
+                PurchaseCount = user.PurchaseCount,
+                Role = user.Role
+            };
+            return View(model); // Передаем модель в представление
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Profile(UserProfileViewModel model)
+        public async Task<IActionResult> SaveEditedProfile(UserProfileViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -61,7 +82,8 @@ namespace Web_site1.Presentation.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            TempData["SuccessMessage"] = "Профиль успешно изменен"; // Сохраняем сообщение в TempData
+            return RedirectToAction("Profile");
         }
     }
 

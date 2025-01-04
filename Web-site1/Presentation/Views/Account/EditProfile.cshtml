@@ -1,13 +1,13 @@
 ﻿@model UserProfileViewModel;
 @{
-    ViewData["Title"] = "Просмотр профиля";
+    ViewData["Title"] = "Редактирование профиля";
 }
 
 <h1>Профиль</h1>
 
-<form asp-action="Profile" method="post">
+<form asp-action="SaveEditedProfile" method="post">
     <div class="form-group">
-        <label>Почта</label>
+        <label>Email</label>
         <input asp-for="Email" class="form-control" readonly />
     </div>
     <div class="form-group">
@@ -50,11 +50,5 @@
         <label>Роль</label>
         <input asp-for="Role" class="form-control" readonly />
     </div>
-    @if (ViewBag.SuccessMessage != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @ViewBag.SuccessMessage
-        </div>
-    }
+    <button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
-<a asp-action="EditProfile" class="btn btn-secondary">Редактировать профиль</a>
